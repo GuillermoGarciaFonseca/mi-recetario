@@ -88,6 +88,96 @@
   "notas": "Para 4 personas: 1 kg de pechugas y 2 yogures griegos. Queda muy bien con unas patatas fritas."
  },
  {
+  "id": "espaguetis-negros-marinera",
+  "nombre": "Espaguetis negros a la marinera",
+  "seccion": "Comidas",
+  "categoria": "Arroces y pastas",
+  "raciones": 2,
+  "tiempo_preparacion_min": 15,
+  "tiempo_coccion_min": 30,
+  "dificultad": "Media",
+  "fecha_hecha": null,
+  "foto": "espaguetis-negros-marinera.webp",
+  "ingredientes": [
+   {
+    "cantidad": "250 g",
+    "nombre": "espaguetis negros (con tinta de calamar)",
+    "tipo": "marisco",
+    "contiene": [
+     "gluten",
+     "moluscos"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "500 g",
+    "nombre": "gambas",
+    "tipo": "marisco",
+    "contiene": [
+     "crustaceos"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "500 g",
+    "nombre": "almejas",
+    "tipo": "marisco",
+    "contiene": [
+     "moluscos"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "6 cucharadas",
+    "nombre": "aceite de oliva",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "2 cucharadas",
+    "nombre": "perejil",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "3 cucharadas",
+    "nombre": "zumo de limón",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "4 cucharadas",
+    "nombre": "ajo en polvo",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "100 ml",
+    "nombre": "vino blanco",
+    "tipo": "vegetal",
+    "contiene": [
+     "sulfitos"
+    ],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Quitar las cabezas a las gambas y reservar los cuerpos.",
+   "Sofreír las cabezas en una sartén con unas cucharadas de aceite. A los 5 minutos, añadir el vino blanco y cocer 10 minutos más.",
+   "Colar el caldo tres veces para quitar todas las impurezas.",
+   "Cocer la pasta 8 minutos. La pasta negra ya tiene sabor, así que no hace falta mucho más.",
+   "En una sartén, emulsionar el resto del aceite con el perejil y el ajo en polvo.",
+   "Añadir las almejas y esperar a que se abran. Juntarlas con la pasta.",
+   "En el mismo aceite, echar las gambas con un poco del caldo de las cabezas.",
+   "Juntarlo todo con la pasta y las almejas, añadir el caldo restante y mezclar: tiene que quedar sedoso, con un poco de caldo."
+  ],
+  "notas": "El caldo de las cabezas es lo que le da el sabor: no te saltes el colado."
+ },
+ {
   "id": "merluza-salsa-verde",
   "ejemplo": true,
   "nombre": "Merluza en salsa verde",
