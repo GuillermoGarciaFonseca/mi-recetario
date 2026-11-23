@@ -61,7 +61,7 @@ function card(r) {
     <div class="card-body">
       <p class="where">${esc(r.seccion)}, ${esc(r.categoria.toLowerCase())}</p>
       <h3><a href="#receta-${esc(r.id)}">${esc(r.nombre)}</a></h3>
-      <div class="meta"><span>${icon("i-reloj")}${total} min</span><span>${icon("i-gorro")}${esc(r.dificultad)}</span></div>
+      <div class="meta"><span>${icon("i-reloj")}${total} min${r.tiempo_marinado_h ? ` + ${r.tiempo_marinado_h} h de marinado` : ""}</span><span>${icon("i-gorro")}${esc(r.dificultad)}</span></div>
       ${avisoTrazas(r)}
       <div class="badges">${badgesDe(r)}</div>
     </div>
@@ -187,6 +187,7 @@ function renderReceta(r) {
         <h1>${esc(r.nombre)}</h1>
         <dl class="datos">
           <div><dt>Preparación</dt><dd>${r.tiempo_preparacion_min} min</dd></div>
+          ${r.tiempo_marinado_h ? `<div><dt>Marinado</dt><dd>${r.tiempo_marinado_h} h</dd></div>` : ""}
           <div><dt>Cocción</dt><dd>${r.tiempo_coccion_min} min</dd></div>
           <div><dt>Raciones</dt><dd>${r.raciones}</dd></div>
           <div><dt>Dificultad</dt><dd>${esc(r.dificultad)}</dd></div>

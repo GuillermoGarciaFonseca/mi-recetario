@@ -1,103 +1,694 @@
 [
-{"id": "merluza-salsa-verde", "ejemplo": true, "nombre": "Merluza en salsa verde", "seccion": "Comidas", "categoria": "Pescado y marisco", "raciones": 4, "tiempo_preparacion_min": 15, "tiempo_coccion_min": 20, "dificultad": "Media", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "4 lomos", "nombre": "merluza", "tipo": "pescado", "contiene": ["pescado"], "trazas": []},
-  {"cantidad": "300 g", "nombre": "almejas", "tipo": "marisco", "contiene": ["moluscos"], "trazas": []},
-  {"cantidad": "1 cucharada", "nombre": "harina de trigo", "tipo": "vegetal", "contiene": ["gluten"], "trazas": []},
-  {"cantidad": "3 dientes", "nombre": "ajo", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1 manojo", "nombre": "perejil", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "4 cucharadas", "nombre": "aceite de oliva", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Salar los lomos.", "Pochar el ajo picado en el aceite y añadir la harina.", "Mojar con medio vaso de agua y remover hasta que espese.", "Meter la merluza y las almejas, tapar y cocer 6 minutos.", "Terminar con el perejil picado."],
- "notas": "Con harina de arroz queda igual y es sin gluten."},
-
-{"id": "lentejas-verduras", "ejemplo": true, "nombre": "Lentejas con verduras", "seccion": "Comidas", "categoria": "Legumbres", "raciones": 4, "tiempo_preparacion_min": 15, "tiempo_coccion_min": 45, "dificultad": "Fácil", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "300 g", "nombre": "lentejas", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "2", "nombre": "zanahoria", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1", "nombre": "pimiento", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1", "nombre": "cebolla", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1 cucharadita", "nombre": "pimentón", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Picar las verduras en dados.", "Rehogarlas 10 minutos con un chorro de aceite.", "Añadir el pimentón, las lentejas y agua que las cubra de sobra.", "Cocer a fuego suave 40 minutos y salar al final."],
- "notas": "Mejor de un día para otro."},
-
-{"id": "tortilla-patatas", "ejemplo": true, "nombre": "Tortilla de patatas", "seccion": "Comidas", "categoria": "Huevos", "raciones": 4, "tiempo_preparacion_min": 10, "tiempo_coccion_min": 25, "dificultad": "Media", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "6", "nombre": "huevos", "tipo": "huevo", "contiene": ["huevo"], "trazas": []},
-  {"cantidad": "4", "nombre": "patatas", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1", "nombre": "cebolla", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "200 ml", "nombre": "aceite de oliva", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Cortar las patatas y la cebolla en láminas finas.", "Pocharlas en el aceite a fuego medio 20 minutos.", "Escurrir y mezclar con los huevos batidos y sal.", "Cuajar en la sartén y darle la vuelta con un plato."],
- "notas": "Con cebolla. Este debate está cerrado."},
-
-{"id": "pollo-ajillo", "ejemplo": true, "nombre": "Pollo al ajillo", "seccion": "Comidas", "categoria": "Carnes", "raciones": 4, "tiempo_preparacion_min": 10, "tiempo_coccion_min": 35, "dificultad": "Fácil", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "1", "nombre": "pollo troceado", "tipo": "carne", "contiene": [], "trazas": []},
-  {"cantidad": "1 cabeza", "nombre": "ajo", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1 vaso", "nombre": "vino blanco", "tipo": "vegetal", "contiene": ["sulfitos"], "trazas": []},
-  {"cantidad": "1 ramita", "nombre": "perejil", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Salpimentar el pollo y dorarlo bien por todos lados.", "Añadir los ajos enteros con piel.", "Mojar con el vino y dejar reducir a fuego medio 25 minutos.", "Espolvorear perejil antes de servir."],
- "notas": ""},
-
-{"id": "risotto-setas", "ejemplo": true, "nombre": "Risotto de setas", "seccion": "Comidas", "categoria": "Arroces y pastas", "raciones": 2, "tiempo_preparacion_min": 15, "tiempo_coccion_min": 25, "dificultad": "Media", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "200 g", "nombre": "arroz arborio", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "250 g", "nombre": "setas", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "50 g", "nombre": "parmesano", "tipo": "lacteo", "contiene": ["lactosa"], "trazas": []},
-  {"cantidad": "30 g", "nombre": "mantequilla", "tipo": "lacteo", "contiene": ["lactosa"], "trazas": []},
-  {"cantidad": "800 ml", "nombre": "caldo de verduras", "tipo": "vegetal", "contiene": [], "trazas": ["gluten", "apio"]}],
- "pasos": ["Saltear las setas y reservar.", "Nacarar el arroz en la misma sartén.", "Añadir el caldo caliente poco a poco, sin dejar de remover, durante 18 minutos.", "Fuera del fuego, mezclar la mantequilla, el parmesano y las setas."],
- "notas": "El caldo de brik puede llevar trazas: mira la etiqueta."},
-
-{"id": "crema-calabaza", "ejemplo": true, "nombre": "Crema de calabaza y coco", "seccion": "Comidas", "categoria": "Sopas y cremas", "raciones": 4, "tiempo_preparacion_min": 10, "tiempo_coccion_min": 30, "dificultad": "Fácil", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "1 kg", "nombre": "calabaza", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1", "nombre": "puerro", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "200 ml", "nombre": "leche de coco", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1 trozo", "nombre": "jengibre", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Rehogar el puerro y el jengibre.", "Añadir la calabaza troceada y cubrir de agua.", "Cocer 25 minutos.", "Triturar con la leche de coco y ajustar de sal."],
- "notas": ""},
-
-{"id": "bizcocho-yogur", "ejemplo": true, "nombre": "Bizcocho de yogur", "seccion": "Postres", "categoria": "Tartas y bizcochos", "raciones": 8, "tiempo_preparacion_min": 15, "tiempo_coccion_min": 40, "dificultad": "Fácil", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "3 medidas de yogur", "nombre": "harina de trigo", "tipo": "vegetal", "contiene": ["gluten"], "trazas": []},
-  {"cantidad": "3", "nombre": "huevos", "tipo": "huevo", "contiene": ["huevo"], "trazas": []},
-  {"cantidad": "1", "nombre": "yogur", "tipo": "lacteo", "contiene": ["lactosa"], "trazas": []},
-  {"cantidad": "2 medidas", "nombre": "azúcar", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1", "nombre": "limón (ralladura)", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Batir los huevos con el azúcar hasta que blanqueen.", "Añadir el yogur, la ralladura y una medida de aceite.", "Incorporar la harina con un sobre de levadura.", "Hornear a 180 °C durante 40 minutos."],
- "notas": "El vaso del yogur sirve de medida para todo."},
-
-{"id": "arroz-con-leche", "ejemplo": true, "nombre": "Arroz con leche", "seccion": "Postres", "categoria": "Postres de cuchara", "raciones": 6, "tiempo_preparacion_min": 5, "tiempo_coccion_min": 50, "dificultad": "Fácil", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "150 g", "nombre": "arroz", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1 l", "nombre": "leche", "tipo": "lacteo", "contiene": ["lactosa"], "trazas": []},
-  {"cantidad": "1 rama", "nombre": "canela", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1 tira", "nombre": "piel de limón", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Infusionar la leche con la canela y el limón.", "Añadir el arroz y cocer a fuego muy suave 45 minutos, removiendo.", "Endulzar al final y dejar enfriar."],
- "notas": "Canela en polvo por encima, sin miedo."},
-
-{"id": "galletas-avena", "ejemplo": true, "nombre": "Galletas de avena y almendra", "seccion": "Postres", "categoria": "Galletas y masas", "raciones": 20, "tiempo_preparacion_min": 15, "tiempo_coccion_min": 12, "dificultad": "Fácil", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "200 g", "nombre": "copos de avena", "tipo": "vegetal", "contiene": [], "trazas": ["gluten"]},
-  {"cantidad": "80 g", "nombre": "almendra", "tipo": "vegetal", "contiene": ["frutos_secos"], "trazas": []},
-  {"cantidad": "3 cucharadas", "nombre": "miel", "tipo": "miel", "contiene": [], "trazas": []},
-  {"cantidad": "60 ml", "nombre": "aceite de girasol", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Mezclar la avena con la almendra picada.", "Añadir la miel y el aceite y amasar.", "Formar bolitas, aplastarlas en la bandeja.", "Hornear a 180 °C durante 12 minutos."],
- "notas": ""},
-
-{"id": "mousse-chocolate", "ejemplo": true, "nombre": "Mousse de chocolate", "seccion": "Postres", "categoria": "Chocolate", "raciones": 4, "tiempo_preparacion_min": 20, "tiempo_coccion_min": 0, "dificultad": "Difícil", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "150 g", "nombre": "chocolate negro", "tipo": "vegetal", "contiene": [], "trazas": ["lactosa", "frutos_secos"]},
-  {"cantidad": "4", "nombre": "huevos", "tipo": "huevo", "contiene": ["huevo"], "trazas": []},
-  {"cantidad": "40 g", "nombre": "azúcar", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Fundir el chocolate al baño maría.", "Mezclar las yemas con el chocolate templado.", "Montar las claras a punto de nieve con el azúcar.", "Incorporar las claras con movimientos envolventes y enfriar 4 horas."],
- "notas": "Huevos muy frescos: la mousse no se cocina."},
-
-{"id": "sorbete-mango", "ejemplo": true, "nombre": "Sorbete de mango", "seccion": "Postres", "categoria": "Helados y fríos", "raciones": 4, "tiempo_preparacion_min": 10, "tiempo_coccion_min": 0, "dificultad": "Fácil", "fecha_hecha": "2026-11-23", "foto": null,
- "ingredientes": [
-  {"cantidad": "2", "nombre": "mango maduro", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "1", "nombre": "lima (zumo)", "tipo": "vegetal", "contiene": [], "trazas": []},
-  {"cantidad": "60 g", "nombre": "azúcar", "tipo": "vegetal", "contiene": [], "trazas": []}],
- "pasos": ["Pelar y trocear el mango.", "Triturar con el azúcar y el zumo de lima.", "Congelar 3 horas, rascando con un tenedor cada hora."],
- "notas": ""}
+ {
+  "id": "pollo-marinado",
+  "nombre": "Pollo marinado al horno",
+  "seccion": "Comidas",
+  "categoria": "Carnes",
+  "raciones": 2,
+  "tiempo_preparacion_min": 10,
+  "tiempo_marinado_h": 6,
+  "tiempo_coccion_min": 25,
+  "dificultad": "Fácil",
+  "fecha_hecha": null,
+  "foto": "pollo-marinado.webp",
+  "ingredientes": [
+   {
+    "cantidad": "500 g",
+    "nombre": "pechugas de pollo",
+    "tipo": "carne",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1",
+    "nombre": "yogur griego sin azúcar",
+    "tipo": "lacteo",
+    "contiene": [
+     "lactosa"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "6 cucharadas (3 si marinas 36 a 48 h)",
+    "nombre": "salsa de soja",
+    "tipo": "vegetal",
+    "contiene": [
+     "soja",
+     "gluten"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 cucharada",
+    "nombre": "salsa barbacoa",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": [
+     "gluten",
+     "mostaza",
+     "apio"
+    ]
+   },
+   {
+    "cantidad": "1 cucharada",
+    "nombre": "pimentón",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 cucharadita",
+    "nombre": "pimienta",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 cucharada",
+    "nombre": "aceite",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 cucharada",
+    "nombre": "perejil",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Mezclar el yogur con la salsa de soja, la salsa barbacoa, el pimentón, la pimienta, el aceite y el perejil.",
+   "Cubrir bien las pechugas con la mezcla.",
+   "Dejar marinar en la nevera: 6 horas con 6 cucharadas de soja, o día y medio a dos días (como en la receta original) con 3 cucharadas.",
+   "Hornear con calor arriba y abajo durante 25 minutos.",
+   "Apagar el horno y dejar reposar el pollo dentro, con la puerta cerrada, de 5 a 10 minutos."
+  ],
+  "notas": "Para 4 personas: 1 kg de pechugas y 2 yogures griegos. Queda muy bien con unas patatas fritas."
+ },
+ {
+  "id": "merluza-salsa-verde",
+  "ejemplo": true,
+  "nombre": "Merluza en salsa verde",
+  "seccion": "Comidas",
+  "categoria": "Pescado y marisco",
+  "raciones": 4,
+  "tiempo_preparacion_min": 15,
+  "tiempo_coccion_min": 20,
+  "dificultad": "Media",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "4 lomos",
+    "nombre": "merluza",
+    "tipo": "pescado",
+    "contiene": [
+     "pescado"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "300 g",
+    "nombre": "almejas",
+    "tipo": "marisco",
+    "contiene": [
+     "moluscos"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 cucharada",
+    "nombre": "harina de trigo",
+    "tipo": "vegetal",
+    "contiene": [
+     "gluten"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "3 dientes",
+    "nombre": "ajo",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 manojo",
+    "nombre": "perejil",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "4 cucharadas",
+    "nombre": "aceite de oliva",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Salar los lomos.",
+   "Pochar el ajo picado en el aceite y añadir la harina.",
+   "Mojar con medio vaso de agua y remover hasta que espese.",
+   "Meter la merluza y las almejas, tapar y cocer 6 minutos.",
+   "Terminar con el perejil picado."
+  ],
+  "notas": "Con harina de arroz queda igual y es sin gluten."
+ },
+ {
+  "id": "lentejas-verduras",
+  "ejemplo": true,
+  "nombre": "Lentejas con verduras",
+  "seccion": "Comidas",
+  "categoria": "Legumbres",
+  "raciones": 4,
+  "tiempo_preparacion_min": 15,
+  "tiempo_coccion_min": 45,
+  "dificultad": "Fácil",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "300 g",
+    "nombre": "lentejas",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "2",
+    "nombre": "zanahoria",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1",
+    "nombre": "pimiento",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1",
+    "nombre": "cebolla",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 cucharadita",
+    "nombre": "pimentón",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Picar las verduras en dados.",
+   "Rehogarlas 10 minutos con un chorro de aceite.",
+   "Añadir el pimentón, las lentejas y agua que las cubra de sobra.",
+   "Cocer a fuego suave 40 minutos y salar al final."
+  ],
+  "notas": "Mejor de un día para otro."
+ },
+ {
+  "id": "tortilla-patatas",
+  "ejemplo": true,
+  "nombre": "Tortilla de patatas",
+  "seccion": "Comidas",
+  "categoria": "Huevos",
+  "raciones": 4,
+  "tiempo_preparacion_min": 10,
+  "tiempo_coccion_min": 25,
+  "dificultad": "Media",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "6",
+    "nombre": "huevos",
+    "tipo": "huevo",
+    "contiene": [
+     "huevo"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "4",
+    "nombre": "patatas",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1",
+    "nombre": "cebolla",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "200 ml",
+    "nombre": "aceite de oliva",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Cortar las patatas y la cebolla en láminas finas.",
+   "Pocharlas en el aceite a fuego medio 20 minutos.",
+   "Escurrir y mezclar con los huevos batidos y sal.",
+   "Cuajar en la sartén y darle la vuelta con un plato."
+  ],
+  "notas": "Con cebolla. Este debate está cerrado."
+ },
+ {
+  "id": "pollo-ajillo",
+  "ejemplo": true,
+  "nombre": "Pollo al ajillo",
+  "seccion": "Comidas",
+  "categoria": "Carnes",
+  "raciones": 4,
+  "tiempo_preparacion_min": 10,
+  "tiempo_coccion_min": 35,
+  "dificultad": "Fácil",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "1",
+    "nombre": "pollo troceado",
+    "tipo": "carne",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 cabeza",
+    "nombre": "ajo",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 vaso",
+    "nombre": "vino blanco",
+    "tipo": "vegetal",
+    "contiene": [
+     "sulfitos"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 ramita",
+    "nombre": "perejil",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Salpimentar el pollo y dorarlo bien por todos lados.",
+   "Añadir los ajos enteros con piel.",
+   "Mojar con el vino y dejar reducir a fuego medio 25 minutos.",
+   "Espolvorear perejil antes de servir."
+  ],
+  "notas": ""
+ },
+ {
+  "id": "risotto-setas",
+  "ejemplo": true,
+  "nombre": "Risotto de setas",
+  "seccion": "Comidas",
+  "categoria": "Arroces y pastas",
+  "raciones": 2,
+  "tiempo_preparacion_min": 15,
+  "tiempo_coccion_min": 25,
+  "dificultad": "Media",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "200 g",
+    "nombre": "arroz arborio",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "250 g",
+    "nombre": "setas",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "50 g",
+    "nombre": "parmesano",
+    "tipo": "lacteo",
+    "contiene": [
+     "lactosa"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "30 g",
+    "nombre": "mantequilla",
+    "tipo": "lacteo",
+    "contiene": [
+     "lactosa"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "800 ml",
+    "nombre": "caldo de verduras",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": [
+     "gluten",
+     "apio"
+    ]
+   }
+  ],
+  "pasos": [
+   "Saltear las setas y reservar.",
+   "Nacarar el arroz en la misma sartén.",
+   "Añadir el caldo caliente poco a poco, sin dejar de remover, durante 18 minutos.",
+   "Fuera del fuego, mezclar la mantequilla, el parmesano y las setas."
+  ],
+  "notas": "El caldo de brik puede llevar trazas: mira la etiqueta."
+ },
+ {
+  "id": "crema-calabaza",
+  "ejemplo": true,
+  "nombre": "Crema de calabaza y coco",
+  "seccion": "Comidas",
+  "categoria": "Sopas y cremas",
+  "raciones": 4,
+  "tiempo_preparacion_min": 10,
+  "tiempo_coccion_min": 30,
+  "dificultad": "Fácil",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "1 kg",
+    "nombre": "calabaza",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1",
+    "nombre": "puerro",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "200 ml",
+    "nombre": "leche de coco",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 trozo",
+    "nombre": "jengibre",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Rehogar el puerro y el jengibre.",
+   "Añadir la calabaza troceada y cubrir de agua.",
+   "Cocer 25 minutos.",
+   "Triturar con la leche de coco y ajustar de sal."
+  ],
+  "notas": ""
+ },
+ {
+  "id": "bizcocho-yogur",
+  "ejemplo": true,
+  "nombre": "Bizcocho de yogur",
+  "seccion": "Postres",
+  "categoria": "Tartas y bizcochos",
+  "raciones": 8,
+  "tiempo_preparacion_min": 15,
+  "tiempo_coccion_min": 40,
+  "dificultad": "Fácil",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "3 medidas de yogur",
+    "nombre": "harina de trigo",
+    "tipo": "vegetal",
+    "contiene": [
+     "gluten"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "3",
+    "nombre": "huevos",
+    "tipo": "huevo",
+    "contiene": [
+     "huevo"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "1",
+    "nombre": "yogur",
+    "tipo": "lacteo",
+    "contiene": [
+     "lactosa"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "2 medidas",
+    "nombre": "azúcar",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1",
+    "nombre": "limón (ralladura)",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Batir los huevos con el azúcar hasta que blanqueen.",
+   "Añadir el yogur, la ralladura y una medida de aceite.",
+   "Incorporar la harina con un sobre de levadura.",
+   "Hornear a 180 °C durante 40 minutos."
+  ],
+  "notas": "El vaso del yogur sirve de medida para todo."
+ },
+ {
+  "id": "arroz-con-leche",
+  "ejemplo": true,
+  "nombre": "Arroz con leche",
+  "seccion": "Postres",
+  "categoria": "Postres de cuchara",
+  "raciones": 6,
+  "tiempo_preparacion_min": 5,
+  "tiempo_coccion_min": 50,
+  "dificultad": "Fácil",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "150 g",
+    "nombre": "arroz",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 l",
+    "nombre": "leche",
+    "tipo": "lacteo",
+    "contiene": [
+     "lactosa"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 rama",
+    "nombre": "canela",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1 tira",
+    "nombre": "piel de limón",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Infusionar la leche con la canela y el limón.",
+   "Añadir el arroz y cocer a fuego muy suave 45 minutos, removiendo.",
+   "Endulzar al final y dejar enfriar."
+  ],
+  "notas": "Canela en polvo por encima, sin miedo."
+ },
+ {
+  "id": "galletas-avena",
+  "ejemplo": true,
+  "nombre": "Galletas de avena y almendra",
+  "seccion": "Postres",
+  "categoria": "Galletas y masas",
+  "raciones": 20,
+  "tiempo_preparacion_min": 15,
+  "tiempo_coccion_min": 12,
+  "dificultad": "Fácil",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "200 g",
+    "nombre": "copos de avena",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": [
+     "gluten"
+    ]
+   },
+   {
+    "cantidad": "80 g",
+    "nombre": "almendra",
+    "tipo": "vegetal",
+    "contiene": [
+     "frutos_secos"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "3 cucharadas",
+    "nombre": "miel",
+    "tipo": "miel",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "60 ml",
+    "nombre": "aceite de girasol",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Mezclar la avena con la almendra picada.",
+   "Añadir la miel y el aceite y amasar.",
+   "Formar bolitas, aplastarlas en la bandeja.",
+   "Hornear a 180 °C durante 12 minutos."
+  ],
+  "notas": ""
+ },
+ {
+  "id": "mousse-chocolate",
+  "ejemplo": true,
+  "nombre": "Mousse de chocolate",
+  "seccion": "Postres",
+  "categoria": "Chocolate",
+  "raciones": 4,
+  "tiempo_preparacion_min": 20,
+  "tiempo_coccion_min": 0,
+  "dificultad": "Difícil",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "150 g",
+    "nombre": "chocolate negro",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": [
+     "lactosa",
+     "frutos_secos"
+    ]
+   },
+   {
+    "cantidad": "4",
+    "nombre": "huevos",
+    "tipo": "huevo",
+    "contiene": [
+     "huevo"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "40 g",
+    "nombre": "azúcar",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Fundir el chocolate al baño maría.",
+   "Mezclar las yemas con el chocolate templado.",
+   "Montar las claras a punto de nieve con el azúcar.",
+   "Incorporar las claras con movimientos envolventes y enfriar 4 horas."
+  ],
+  "notas": "Huevos muy frescos: la mousse no se cocina."
+ },
+ {
+  "id": "sorbete-mango",
+  "ejemplo": true,
+  "nombre": "Sorbete de mango",
+  "seccion": "Postres",
+  "categoria": "Helados y fríos",
+  "raciones": 4,
+  "tiempo_preparacion_min": 10,
+  "tiempo_coccion_min": 0,
+  "dificultad": "Fácil",
+  "fecha_hecha": "2026-11-23",
+  "foto": null,
+  "ingredientes": [
+   {
+    "cantidad": "2",
+    "nombre": "mango maduro",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "1",
+    "nombre": "lima (zumo)",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "60 g",
+    "nombre": "azúcar",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Pelar y trocear el mango.",
+   "Triturar con el azúcar y el zumo de lima.",
+   "Congelar 3 horas, rascando con un tenedor cada hora."
+  ],
+  "notas": ""
+ }
 ]

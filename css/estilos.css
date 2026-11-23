@@ -226,8 +226,8 @@ footer .wrap { display: flex; gap: var(--space-md); justify-content: space-betwe
 .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ficha-head { display: flex; flex-direction: column; gap: var(--space-md); }
 .ficha-head h1 { font-size: var(--text-3xl); }
-.datos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm); margin: 0; }
-@media (min-width: 30rem) { .datos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.datos { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin: 0; }
+.datos > div { flex: 1 1 84px; min-width: 0; }
 .datos div { border: 2px solid var(--color-ink); border-radius: var(--radius-ctl); padding: var(--space-xs) var(--space-sm); background: var(--color-white); }
 .datos dt { font-size: var(--text-xs); color: var(--color-muted); font-weight: 700; }
 .datos dd { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--text-lg); font-variant-numeric: tabular-nums; }

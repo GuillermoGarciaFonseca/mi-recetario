@@ -28,6 +28,7 @@ Añade un objeto a `data/recetas.json`. Las etiquetas «apto para» **no se escr
   "categoria": "Pescado y marisco",
   "raciones": 4,
   "tiempo_preparacion_min": 15,
+  "tiempo_marinado_h": 6,
   "tiempo_coccion_min": 20,
   "dificultad": "Media",
   "fecha_hecha": "2026-11-23",
@@ -44,6 +45,7 @@ Añade un objeto a `data/recetas.json`. Las etiquetas «apto para» **no se escr
 - `tipo`: `vegetal`, `lacteo`, `huevo`, `miel`, `pescado`, `marisco` o `carne`.
 - `contiene` y `trazas`: alérgenos de la UE (`gluten`, `lactosa`, `huevo`, `frutos_secos`, `pescado`, `moluscos`, `crustaceos`, `soja`, `cacahuetes`, `apio`, `mostaza`, `sesamo`, `sulfitos`, `altramuces`).
 - `foto`: nombre del archivo en `fotos/`, o `null`.
+- `tiempo_marinado_h`: opcional, horas de marinado (no cuentan en el tiempo de la tarjeta, se muestran aparte).
 
 Las recetas con `"ejemplo": true` son de prueba y se borran cuando llegan las reales.
 
