@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi Recetario</title>
+<meta name="description" content="Recetas caseras probadas, con filtros por alérgenos y dieta, y minijuegos.">
+<meta name="theme-color" content="#FFF8EE">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-gluten" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V8"/><path d="M12 8c-3-1-4-3.5-3.5-6 2.6.4 4 2.6 3.5 6zM12 8c3-1 4-3.5 3.5-6-2.6.4-4 2.6-3.5 6z"/><path d="M12 14c-3-.6-4.6-2.6-4.6-5 2.6 0 4.4 2 4.6 5zM12 14c3-.6 4.6-2.6 4.6-5-2.6 0-4.4 2-4.6 5z"/><path d="M4 4l16 16"/></g></symbol>
+    <symbol id="i-lactosa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6v3l2 4v12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V9l2-4z"/><path d="M7 12h10"/><path d="M4 4l16 16"/></g></symbol>
+    <symbol id="i-huevo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c3.8 0 6.5 6.2 6.5 11a6.5 6.5 0 0 1-13 0c0-4.8 2.7-11 6.5-11z"/><path d="M4 4l16 16"/></g></symbol>
+    <symbol id="i-frutos" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.5 0 8 3.4 8 8.5 0 5-3.6 9.5-8 9.5s-8-4.5-8-9.5C4 6.4 7.5 3 12 3z"/><path d="M12 6v12"/><path d="M4 4l16 16"/></g></symbol>
+    <symbol id="i-hoja" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19C4 11 9 4 20 4c0 11-6 16-15 15z"/><path d="M5 19L13 11"/></g></symbol>
+    <symbol id="i-brote" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12C12 7 9 4 3.5 4 3.5 9.5 6.5 12 12 12z"/><path d="M12 14c0-4.5 3-7 8.5-7 0 5-3 7-8.5 7z"/></g></symbol>
+    <symbol id="i-pez" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12c3-4.5 7-6 11-6 3.5 0 6 2.5 7.5 6-1.5 3.5-4 6-7.5 6-4 0-8-1.5-11-6z"/><path d="M2.5 12L1 8.5M2.5 12L1 15.5"/><circle cx="16.5" cy="10.5" r="1" fill="currentColor"/></g></symbol>
+    <symbol id="i-carne" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3.5a5.5 5.5 0 0 1 4 9.3c-1.8 1.9-4.6 2.2-6.5 1.7L9.5 18"/><path d="M15.5 3.5a5.5 5.5 0 0 0-5.2 7.2L6 15"/><path d="M6 15l-1.5 1.5a2 2 0 1 0 2 3.5 2 2 0 1 0 3-1.5L9.5 18"/></g></symbol>
+    <symbol id="i-reloj" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
+    <symbol id="i-gorro" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14a4 4 0 1 1 1.8-7.6A4.5 4.5 0 0 1 16.2 6.4 4 4 0 1 1 18 14v6H6z"/><path d="M6 17h12"/></g></symbol>
+    <symbol id="i-aviso" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.01"/></g></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-olla" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13h22v9a6 6 0 0 1-6 6H11a6 6 0 0 1-6-6z" fill="currentColor"/><path d="M2 13h28"/><path d="M12 8c0-2 2-2 2-4M18 8c0-2 2-2 2-4"/></g></symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="wordmark" href="#inicio"><svg aria-hidden="true"><use href="#i-olla"/></svg>Mi Recetario</a>
+    <nav class="topnav" aria-label="Principal">
+      <a href="#recetas" data-go="Comidas">Comidas</a>
+      <a href="#recetas" data-go="Postres">Postres</a>
+      <a href="#minijuegos" class="games">Minijuegos</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+<div id="vista-inicio">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Recetas probadas en mi cocina</h1>
+        <p class="hero-lead">Busca por plato, o por lo que no puedes comer.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#recetas">Ver todas las recetas</a>
+          <a class="btn btn-ghost" href="#minijuegos">Jugar un rato</a>
+        </div>
+      </div>
+
+      <form class="sentence" id="sentence" aria-labelledby="sentence-label">
+        <p class="sentence-label" id="sentence-label">Pídelo como lo dirías</p>
+        <p class="sentence-text">
+          Quiero
+          <label class="visually-hidden" for="s-seccion">Sección</label>
+          <select id="s-seccion" class="sel-seccion" data-v="Comidas">
+            <option>Comidas</option><option>Postres</option>
+          </select>
+          de
+          <label class="visually-hidden" for="s-cat">Categoría</label>
+          <select id="s-cat" class="sel-cat"></select>
+          que sean
+          <span class="sentence-tags" id="s-tags" role="group" aria-label="Apto para"></span>
+        </p>
+        <div class="sentence-foot">
+          <span class="sentence-count" id="s-count" aria-live="polite"></span>
+          <button type="submit" class="btn btn-primary" id="s-go">Enséñamelas</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="secciones-h">
+    <div class="wrap">
+      <div class="block-head">
+        <h2 id="secciones-h">Dos secciones, catorce categorías</h2>
+      </div>
+      <div class="sections" id="sections"></div>
+    </div>
+  </section>
+
+  <section class="block" id="recetas" aria-labelledby="recetas-h">
+    <div class="wrap">
+      <div class="block-head">
+        <h2 id="recetas-h">Todas las recetas</h2>
+        <p class="note-ex" id="aviso-ejemplo"><svg width="16" height="16" aria-hidden="true"><use href="#i-aviso"/></svg>Recetas de ejemplo: se cambian por las tuyas</p>
+      </div>
+
+      <div class="listing">
+        <details class="filters-wrap" id="filters-wrap" open>
+          <summary>Filtros <span id="f-n"></span></summary>
+          <div class="filters">
+            <div class="fgroup">
+              <label class="fl" for="f-q">Buscar</label>
+              <input class="search" id="f-q" type="search" placeholder="Merluza, lentejas, canela..." autocomplete="off">
+            </div>
+            <fieldset class="fgroup">
+              <legend>Sección</legend>
+              <div class="seg" id="f-seccion">
+                <button type="button" data-v="" aria-pressed="true">Todas</button>
+                <button type="button" data-v="Comidas" aria-pressed="false">Comidas</button>
+                <button type="button" data-v="Postres" aria-pressed="false">Postres</button>
+              </div>
+            </fieldset>
+            <div class="fgroup">
+              <label class="fl" for="f-cat">Categoría</label>
+              <select class="fselect" id="f-cat"></select>
+            </div>
+            <fieldset class="fgroup">
+              <legend>Sin alérgeno</legend>
+              <div class="chips-col" id="f-alergeno"></div>
+              <label class="check"><input type="checkbox" id="f-trazas"> Incluir las que solo tienen trazas</label>
+            </fieldset>
+            <fieldset class="fgroup">
+              <legend>Dieta</legend>
+              <div class="chips-col" id="f-dieta"></div>
+            </fieldset>
+          </div>
+        </details>
+
+        <div>
+          <div class="results-head">
+            <p class="results-count" id="r-count" aria-live="polite"></p>
+            <div class="active" id="r-active"></div>
+          </div>
+          <ul class="grid" id="r-grid"></ul>
+          <div class="empty" id="r-empty" hidden>
+            <h3>Ninguna receta cumple todo eso</h3>
+            <p id="r-empty-hint">Quita algún filtro y vuelve a mirar.</p>
+            <button type="button" class="btn btn-ghost" id="r-reset">Quitar todos los filtros</button>
+          </div>
+          <noscript><p>Activa JavaScript para ver y filtrar las recetas.</p></noscript>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="minijuegos" aria-labelledby="juegos-h">
+    <div class="wrap">
+      <div class="games-band">
+        <div>
+          <h2 id="juegos-h">Minijuegos</h2>
+          <p>Cuatro juegos hechos con estas mismas recetas.</p>
+        </div>
+        <ul class="games-list">
+          <li><a href="#juego-adivina"><b>Adivina la receta</b><span>Ingredientes uno a uno; acierta pronto.</span></a></li>
+          <li><a href="#juego-apto"><b>¿Es apto?</b><span>Plato y dieta, sí o no, contra el reloj.</span></a></li>
+          <li><a href="#juego-memory"><b>Memory de recetas</b><span>Empareja cada plato con su categoría.</span></a></li>
+          <li><a href="#juego-cesta"><b>La cesta de la compra</b><span>Recoge lo de la receta, esquiva alérgenos.</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="vista-receta" hidden></div>
+<div id="vista-juego" hidden></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Mi Recetario, cocinado en casa</span>
+    <span id="pie-ejemplo">Recetas de ejemplo mientras llegan las de verdad</span>
+  </div>
+</footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
