@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mi Recetario</title>
-<meta name="description" content="Recetas caseras probadas, con filtros por alérgenos y dieta, y minijuegos.">
-<meta name="theme-color" content="#FFF8EE">
+<title>Recetario | Sencillo. Casero. Bueno.</title>
+<meta name="description" content="Recetas caseras probadas, con filtros por alérgenos y dieta, y juegos con ingredientes en 3D.">
+<meta name="theme-color" content="#070D19">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Manrope:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
@@ -34,11 +34,12 @@
 
 <header class="topbar">
   <div class="wrap">
-    <a class="wordmark" href="#inicio"><svg aria-hidden="true"><use href="#i-olla"/></svg>Mi Recetario</a>
+    <a class="wordmark tactil" href="#inicio">Recetario</a>
     <nav class="topnav" aria-label="Principal">
-      <a href="#recetas" data-go="Comidas">Comidas</a>
-      <a href="#recetas" data-go="Postres">Postres</a>
-      <a href="#minijuegos" class="games">Minijuegos</a>
+      <a class="tactil" href="#carta">La carta</a>
+      <a class="tactil" href="#recetas" data-go="Comidas">Comidas</a>
+      <a class="tactil" href="#recetas" data-go="Postres">Postres</a>
+      <a class="tactil" href="#juegos">Juegos</a>
     </nav>
   </div>
 </header>
@@ -46,61 +47,57 @@
 <main id="inicio">
 <div id="vista-inicio">
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <h1>Recetas probadas en mi cocina</h1>
-        <p class="hero-lead">Busca por plato, o por lo que no puedes comer.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#recetas">Ver todas las recetas</a>
-          <a class="btn btn-ghost" href="#minijuegos">Jugar un rato</a>
-        </div>
+    <div class="hero-foto"><img src="fotos/portada.webp" alt="Pechugas de pollo marinadas al horno con patatas fritas" fetchpriority="high"></div>
+    <div class="wrap">
+      <h1>Sencillo. Casero. Bueno.</h1>
+      <p class="hero-lead">Recetas probadas en casa, para lo que puede comer cada uno.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#recetas">Ver las recetas</a>
+        <a class="btn" href="#juegos">Jugar</a>
       </div>
-
-      <form class="sentence" id="sentence" aria-labelledby="sentence-label">
-        <p class="sentence-label" id="sentence-label">Pídelo como lo dirías</p>
-        <p class="sentence-text">
-          Quiero
-          <label class="visually-hidden" for="s-seccion">Sección</label>
-          <select id="s-seccion" class="sel-seccion" data-v="Comidas">
-            <option>Comidas</option><option>Postres</option>
-          </select>
-          de
-          <label class="visually-hidden" for="s-cat">Categoría</label>
-          <select id="s-cat" class="sel-cat"></select>
-          que sean
-          <span class="sentence-tags" id="s-tags" role="group" aria-label="Apto para"></span>
-        </p>
-        <div class="sentence-foot">
-          <span class="sentence-count" id="s-count" aria-live="polite"></span>
-          <button type="submit" class="btn btn-primary" id="s-go">Enséñamelas</button>
-        </div>
-      </form>
     </div>
   </section>
 
-  <section class="block" aria-labelledby="secciones-h">
-    <div class="wrap">
-      <div class="block-head">
-        <h2 id="secciones-h">Dos secciones, catorce categorías</h2>
+  <section class="wrap" aria-labelledby="sentence-label">
+    <form class="sentence" id="sentence">
+      <h2 class="visually-hidden" id="sentence-label">Buscar una receta</h2>
+      <p class="sentence-text">
+        Hoy quiero
+        <label class="visually-hidden" for="s-seccion">Sección</label>
+        <select id="s-seccion"><option>Comidas</option><option>Postres</option></select>
+        de
+        <label class="visually-hidden" for="s-cat">Categoría</label>
+        <select id="s-cat"></select>
+        que sean
+        <span class="sentence-tags" id="s-tags" role="group" aria-label="Apto para"></span>
+      </p>
+      <div class="sentence-foot">
+        <button type="submit" class="btn btn-primary" id="s-go">Buscar</button>
+        <span class="sentence-count" id="s-count" aria-live="polite"></span>
       </div>
-      <div class="sections" id="sections"></div>
+    </form>
+  </section>
+
+  <section class="block" id="carta" aria-labelledby="carta-h">
+    <div class="wrap">
+      <div class="block-head"><h2 id="carta-h">La carta</h2><p id="carta-total"></p></div>
+      <div class="carta" id="sections"></div>
     </div>
   </section>
 
   <section class="block" id="recetas" aria-labelledby="recetas-h">
     <div class="wrap">
       <div class="block-head">
-        <h2 id="recetas-h">Todas las recetas</h2>
-        <p class="note-ex" id="aviso-ejemplo"><svg width="16" height="16" aria-hidden="true"><use href="#i-aviso"/></svg>Recetas de ejemplo: se cambian por las tuyas</p>
+        <h2 id="recetas-h">Recetas</h2>
+        <p class="note-ex" id="aviso-ejemplo"><svg aria-hidden="true"><use href="#i-aviso"/></svg>Hay recetas de ejemplo mientras llegan las de casa</p>
       </div>
-
       <div class="listing">
         <details class="filters-wrap" id="filters-wrap" open>
-          <summary>Filtros <span id="f-n"></span></summary>
+          <summary class="tactil">Filtros <span id="f-n"></span></summary>
           <div class="filters">
             <div class="fgroup">
               <label class="fl" for="f-q">Buscar</label>
-              <input class="search" id="f-q" type="search" placeholder="Merluza, lentejas, canela..." autocomplete="off">
+              <input class="search" id="f-q" type="search" placeholder="Merluza, gambas, canela..." autocomplete="off">
             </div>
             <fieldset class="fgroup">
               <legend>Sección</legend>
@@ -125,17 +122,16 @@
             </fieldset>
           </div>
         </details>
-
         <div>
           <div class="results-head">
-            <p class="results-count" id="r-count" aria-live="polite"></p>
+            <p class="results-count" id="r-count" aria-live="polite">Cargando recetas</p>
             <div class="active" id="r-active"></div>
           </div>
           <ul class="grid" id="r-grid"></ul>
           <div class="empty" id="r-empty" hidden>
             <h3>Ninguna receta cumple todo eso</h3>
             <p id="r-empty-hint">Quita algún filtro y vuelve a mirar.</p>
-            <button type="button" class="btn btn-ghost" id="r-reset">Quitar todos los filtros</button>
+            <button type="button" class="btn" id="r-reset">Quitar todos los filtros</button>
           </div>
           <noscript><p>Activa JavaScript para ver y filtrar las recetas.</p></noscript>
         </div>
@@ -143,20 +139,10 @@
     </div>
   </section>
 
-  <section class="block" id="minijuegos" aria-labelledby="juegos-h">
+  <section class="block" id="juegos" aria-labelledby="juegos-h">
     <div class="wrap">
-      <div class="games-band">
-        <div>
-          <h2 id="juegos-h">Minijuegos</h2>
-          <p>Cuatro juegos hechos con estas mismas recetas.</p>
-        </div>
-        <ul class="games-list">
-          <li><a href="#juego-adivina"><b>Adivina la receta</b><span>Ingredientes uno a uno; acierta pronto.</span></a></li>
-          <li><a href="#juego-apto"><b>¿Es apto?</b><span>Plato y dieta, sí o no, contra el reloj.</span></a></li>
-          <li><a href="#juego-memory"><b>Memory de recetas</b><span>Empareja cada plato con su categoría.</span></a></li>
-          <li><a href="#juego-cesta"><b>La cesta de la compra</b><span>Recoge lo de la receta, esquiva alérgenos.</span></a></li>
-        </ul>
-      </div>
+      <div class="block-head"><h2 id="juegos-h">Juegos</h2><p>Con los ingredientes de estas recetas, en 3D.</p></div>
+      <ul class="juegos-grid" id="juegos-grid"></ul>
     </div>
   </section>
 </div>
@@ -167,8 +153,8 @@
 
 <footer>
   <div class="wrap">
-    <span>Mi Recetario, cocinado en casa</span>
-    <span id="pie-ejemplo">Recetas de ejemplo mientras llegan las de verdad</span>
+    <span class="lema">Sencillo. Casero. Bueno.</span>
+    <span id="pie-ejemplo">Las recetas de ejemplo se irán cambiando por las de casa</span>
   </div>
 </footer>
 <script type="module" src="js/app.js"></script>

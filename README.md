@@ -1,6 +1,6 @@
 # Mi Recetario
 
-Web personal de recetas: se filtran por sección, categoría y «apto para» (sin gluten, sin lactosa, vegano…), y tiene cuatro minijuegos hechos con las propias recetas.
+**Sencillo. Casero. Bueno.** Web personal de recetas: se filtran por sección, categoría y «apto para» (sin gluten, sin lactosa, vegano…), y tiene cuatro juegos hechos con las propias recetas, con los ingredientes modelados en 3D.
 
 Es una web estática (HTML, CSS y JavaScript, sin servidor) publicada con GitHub Pages.
 
@@ -8,12 +8,14 @@ Es una web estática (HTML, CSS y JavaScript, sin servidor) publicada con GitHub
 
 | Archivo | Qué es |
 | --- | --- |
-| `index.html` | Portada, listado con filtros, ficha de receta y juegos (una sola página con rutas `#receta-…` y `#juego-…`) |
+| `index.html` | Portada, la carta, listado con filtros, ficha de receta y juegos (una sola página con rutas `#receta-…` y `#juego-…`) |
 | `data/recetas.json` | Todas las recetas. Es lo único que hay que tocar para añadir una |
 | `fotos/` | Fotos de los platos, en WebP de 1200 px, con el nombre de la receta |
 | `js/reglas.js` | Módulo de reglas dietéticas: calcula las etiquetas a partir de los ingredientes |
 | `js/app.js` | Listado, filtros, ficha y rutas |
-| `js/juegos.js` | Adivina la receta, ¿Es apto?, Memory y La cesta de la compra |
+| `js/juegos.js` | Adivina la receta, ¿Es apto?, Memory y La cesta de la compra (escena 3D) |
+| `js/modelos.js` | Ingredientes en 3D hechos con three.js (tomate, huevo, gambas, botellas…). Para un ingrediente nuevo, se añade su palabra clave en `REGLAS` |
+| `js/vendor/` | three.js 0.170 (licencia MIT), incluido para no depender de ningún CDN |
 | `css/estilos.css` | Paleta, tipografía y componentes |
 
 ## Añadir una receta

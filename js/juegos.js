@@ -1,11 +1,20 @@
 import { ALERGENOS, DIETAS, NOMBRE_ALERGENO, motivo, etiquetaNombre } from "./reglas.js";
 
 export const JUEGOS = {
-  adivina: { nombre: "Adivina la receta", como: "Van saliendo ingredientes. Cuantas menos pistas necesites, más puntos." },
-  apto: { nombre: "¿Es apto?", como: "Sale un plato y una dieta. Responde sí o no antes de que se acabe el tiempo." },
-  memory: { nombre: "Memory de recetas", como: "Da la vuelta a dos cartas y empareja cada plato con su categoría." },
-  cesta: { nombre: "La cesta de la compra", como: "Mueve la cesta y recoge solo los ingredientes de la receta. Esquiva los que llevan el alérgeno." }
+  adivina: { nombre: "Adivina la receta", corto: "Ingredientes uno a uno. Acierta pronto.", como: "Van saliendo ingredientes. Cuantas menos pistas necesites, más puntos." },
+  apto: { nombre: "¿Es apto?", corto: "Plato y dieta, sí o no, contra el reloj.", como: "Sale un plato y una dieta. Responde sí o no antes de que se acabe el tiempo." },
+  memory: { nombre: "Memory", corto: "Cada plato con su categoría.", como: "Da la vuelta a dos cartas y empareja cada plato con su categoría." },
+  cesta: { nombre: "La cesta de la compra", corto: "Recoge lo de la receta, esquiva alérgenos.", como: "Mueve la cesta y recoge solo los ingredientes de la receta. Los marcados en dorado llevan el alérgeno: si caen dentro, pierdes una vida." }
 };
+
+/* ---------- 3D (carga perezosa: si no hay WebGL, la web sigue funcionando) ---------- */
+let modelosP = null;
+const modelos = () => (modelosP ??= import("./modelos.js").catch(() => null));
+export async function imagenIngredientes(nombres, ancho = 320, alto = 320, tipo) {
+  const m = await modelos();
+  if (!m) return null;
+  try { return m.renderizar(nombres, { ancho, alto, tipo }); } catch { return null; }
+}
 
 /* ---------- Utilidades ---------- */
 const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -15,16 +24,21 @@ const azar = arr => arr[Math.floor(Math.random() * arr.length)];
 
 function leerRecord(id) { try { return Number(localStorage.getItem("recetario-record-" + id)) || 0; } catch { return 0; } }
 function guardarRecord(id, pts) {
-  const antes = leerRecord(id);
-  if (pts > antes) { try { localStorage.setItem("recetario-record-" + id, String(pts)); } catch { /* sin almacenamiento */ } return true; }
+  if (pts > leerRecord(id)) { try { localStorage.setItem("recetario-record-" + id, String(pts)); } catch { /* sin almacenamiento */ } return true; }
   return false;
 }
 
-function marco(el, id, extraClase = "") {
+// Imagen de un plato: su foto, o un bodegón 3D de sus ingredientes.
+async function imagenPlato(r, ancho = 640, alto = 480) {
+  if (r.foto) return { url: `fotos/${r.foto}`, render: false };
+  return { url: await imagenIngredientes(r.ingredientes.slice(0, 3).map(i => i.nombre), ancho, alto), render: true };
+}
+
+function marco(el, id) {
   const j = JUEGOS[id];
   el.innerHTML = `
-  <div class="juego wrap ${extraClase}">
-    <a class="volver" href="#minijuegos">Volver a los juegos</a>
+  <div class="juego wrap">
+    <a class="volver tactil" href="#juegos">Volver a los juegos</a>
     <header class="juego-head">
       <div>
         <h1>${j.nombre}</h1>
@@ -37,10 +51,7 @@ function marco(el, id, extraClase = "") {
     </header>
     <div class="juego-zona" data-zona></div>
   </div>`;
-  return {
-    zona: el.querySelector("[data-zona]"),
-    puntos: n => { el.querySelector("[data-puntos]").textContent = n; }
-  };
+  return { zona: el.querySelector("[data-zona]"), puntos: n => { el.querySelector("[data-puntos]").textContent = n; } };
 }
 
 function finPartida(zona, id, pts, texto, reiniciar) {
@@ -51,17 +62,16 @@ function finPartida(zona, id, pts, texto, reiniciar) {
     <p>${nuevo && pts > 0 ? "Nuevo récord en este dispositivo." : esc(texto)}</p>
     <div class="fin-acc">
       <button type="button" class="btn btn-primary" data-otra>Jugar otra vez</button>
-      <a class="btn btn-ghost" href="#minijuegos">Elegir otro juego</a>
+      <a class="btn" href="#juegos">Elegir otro juego</a>
     </div>
   </div>`;
   zona.querySelector("[data-otra]").addEventListener("click", reiniciar);
   zona.querySelector("[data-otra]").focus();
-  const rec = zona.closest(".juego").querySelector("[data-record]");
-  rec.textContent = leerRecord(id);
+  zona.closest(".juego").querySelector("[data-record]").textContent = leerRecord(id);
 }
 
 function pocasRecetas(zona, n) {
-  zona.innerHTML = `<div class="fin"><p>Este juego necesita al menos ${n} recetas. Añade alguna más y vuelve.</p><a class="btn btn-ghost" href="#recetas">Ver las recetas</a></div>`;
+  zona.innerHTML = `<div class="fin"><p>Este juego necesita al menos ${n} recetas. Añade alguna más y vuelve.</p><a class="btn" href="#recetas">Ver las recetas</a></div>`;
 }
 
 export function montarJuego(id, el, recetas) {
@@ -73,13 +83,9 @@ function adivina(el, recetas) {
   const { zona, puntos } = marco(el, "adivina");
   if (recetas.length < 2) { pocasRecetas(zona, 2); return () => {}; }
   const RONDAS = Math.min(5, recetas.length);
-  let ronda, total, orden;
+  let ronda, total, orden, vivo = true;
 
-  function empezar() {
-    ronda = 0; total = 0; puntos(0);
-    orden = barajar(recetas).slice(0, RONDAS);
-    siguiente();
-  }
+  function empezar() { ronda = 0; total = 0; puntos(0); orden = barajar(recetas).slice(0, RONDAS); siguiente(); }
 
   function siguiente() {
     if (ronda >= RONDAS) return finPartida(zona, "adivina", total, "Prueba otra vez: las recetas salen en otro orden.", empezar);
@@ -91,10 +97,10 @@ function adivina(el, recetas) {
     zona.innerHTML = `
       <p class="ronda">Ronda ${ronda + 1} de ${RONDAS}</p>
       <div class="adivina">
-        <div class="pistas-col">
+        <div>
           <h2>Pistas</h2>
           <ol class="pistas" data-pistas></ol>
-          <button type="button" class="btn btn-ghost" data-mas>Otra pista</button>
+          <button type="button" class="btn" data-mas>Otra pista</button>
         </div>
         <div>
           <h2>¿Qué receta es?</h2>
@@ -106,9 +112,15 @@ function adivina(el, recetas) {
       </div>`;
     const $p = zona.querySelector("[data-pistas]"), $mas = zona.querySelector("[data-mas]"), $fb = zona.querySelector("[data-fb]");
     const pintar = () => {
-      $p.innerHTML = pistas.slice(0, vistas).map(i => `<li>${esc(i.nombre)}</li>`).join("");
+      while ($p.children.length < vistas) {
+        const ing = pistas[$p.children.length];
+        const li = document.createElement("li");
+        li.innerHTML = `<img alt=""><span>${esc(ing.nombre)}</span>`;
+        $p.append(li);
+        imagenIngredientes([ing.nombre], 248, 248, ing.tipo).then(url => { if (url && vivo) li.querySelector("img").src = url; else li.querySelector("img").remove(); });
+      }
       $mas.disabled = vistas >= pistas.length || resuelta;
-      $mas.textContent = vistas >= pistas.length ? "No hay más pistas" : `Otra pista (${pistas.length - vistas} más)`;
+      $mas.textContent = vistas >= pistas.length ? "No hay más pistas" : `Otra pista (quedan ${pistas.length - vistas})`;
     };
     pintar();
     $mas.addEventListener("click", () => { vistas++; pintar(); });
@@ -120,10 +132,10 @@ function adivina(el, recetas) {
       total += pts; puntos(total);
       zona.querySelectorAll(".opcion").forEach(o => {
         o.disabled = true;
-        if (o.dataset.id === secreta.id) o.classList.add("bien");
-        else if (o === b) o.classList.add("mal");
+        if (o.dataset.id === secreta.id) o.classList.add("bien"); else if (o === b) o.classList.add("mal");
       });
       vistas = pistas.length; pintar();
+      $fb.className = "feedback " + (ok ? "bien" : "mal");
       $fb.innerHTML = (ok ? `Correcto, ${pts} puntos.` : `Era ${esc(secreta.nombre)}.`) +
         ` <button type="button" class="btn btn-primary" data-sig>${ronda + 1 < RONDAS ? "Siguiente" : "Ver resultado"}</button>`;
       const sig = zona.querySelector("[data-sig]");
@@ -132,7 +144,7 @@ function adivina(el, recetas) {
     });
   }
   empezar();
-  return () => {};
+  return () => { vivo = false; };
 }
 
 /* ---------- 2. ¿Es apto? ---------- */
@@ -144,7 +156,7 @@ function apto(el, recetas) {
   let timer = null, keyHandler = null;
 
   function portada() {
-    zona.innerHTML = `<div class="fin"><p>Tienes ${DURACION} segundos. Puedes responder con las teclas S y N.</p>
+    zona.innerHTML = `<div class="fin"><p>Tienes ${DURACION} segundos. También puedes responder con las teclas S y N.</p>
       <button type="button" class="btn btn-primary" data-empezar>Empezar</button></div>`;
     zona.querySelector("[data-empezar]").addEventListener("click", empezar);
   }
@@ -154,26 +166,33 @@ function apto(el, recetas) {
     puntos(0);
     zona.innerHTML = `
       <div class="apto">
-        <div class="reloj" data-reloj role="timer" aria-label="Tiempo restante">${DURACION}</div>
-        <div class="pregunta" data-preg aria-live="polite"></div>
-        <div class="si-no">
-          <button type="button" class="btn btn-si" data-r="si">Sí</button>
-          <button type="button" class="btn btn-no" data-r="no">No</button>
+        <div class="photo" data-img></div>
+        <div class="apto-lado">
+          <p class="reloj" data-reloj role="timer" aria-label="Segundos restantes">${DURACION}</p>
+          <div class="pregunta" data-preg aria-live="polite"></div>
+          <div class="si-no">
+            <button type="button" class="btn" data-r="si">Sí</button>
+            <button type="button" class="btn" data-r="no">No</button>
+          </div>
+          <p class="feedback" data-fb aria-live="polite"></p>
         </div>
-        <p class="feedback" data-fb aria-live="polite"></p>
       </div>`;
-    const $preg = zona.querySelector("[data-preg]"), $fb = zona.querySelector("[data-fb]"), $reloj = zona.querySelector("[data-reloj]");
+    const $preg = zona.querySelector("[data-preg]"), $fb = zona.querySelector("[data-fb]"), $reloj = zona.querySelector("[data-reloj]"), $img = zona.querySelector("[data-img]");
 
     const nueva = () => {
       const r = azar(recetas), et = azar(ETIQUETAS);
-      const apta = r.tags.sin.has(et) || r.tags.dieta.has(et);
-      actual = { r, et, apta };
-      $preg.innerHTML = `<span class="plato">${esc(r.nombre)}</span><span class="es">¿Es <b>${esc(etiquetaNombre(et).toLowerCase())}</b>?</span>`;
+      actual = { r, et, apta: r.tags.sin.has(et) || r.tags.dieta.has(et) };
+      $preg.innerHTML = `<span class="plato">${esc(r.nombre)}</span><span class="es">¿Es ${esc(etiquetaNombre(et).toLowerCase())}?</span>`;
+      imagenPlato(r).then(({ url, render }) => {
+        if (actual?.r !== r) return;
+        $img.className = "photo" + (render ? " render" : "");
+        $img.innerHTML = url ? `<img src="${url}" alt="${esc(r.nombre)}">` : "";
+      });
     };
     const responder = si => {
       if (!actual) return;
       const ok = si === actual.apta;
-      if (ok) { racha++; pts += 10 + Math.min(racha - 1, 5) * 2; $fb.textContent = racha > 1 ? `Bien, racha de ${racha}.` : "Bien."; $fb.className = "feedback bien"; }
+      if (ok) { racha++; pts += 10 + Math.min(racha - 1, 5) * 2; $fb.textContent = racha > 1 ? `Bien. Racha de ${racha}.` : "Bien."; $fb.className = "feedback bien"; }
       else {
         racha = 0;
         const m = actual.apta ? "sí lo es" : (motivo(actual.r, actual.et) || "no lo es");
@@ -189,10 +208,7 @@ function apto(el, recetas) {
     timer = setInterval(() => {
       quedan--; $reloj.textContent = quedan;
       $reloj.classList.toggle("poco", quedan <= 10);
-      if (quedan <= 0) {
-        parar();
-        finPartida(zona, "apto", pts, "Cada acierto seguido suma un poco más.", empezar);
-      }
+      if (quedan <= 0) { parar(); finPartida(zona, "apto", pts, "Cada acierto seguido suma un poco más.", empezar); }
     }, 1000);
   }
   function parar() {
@@ -215,24 +231,37 @@ function memory(el, recetas) {
     const elegidas = [...porCat.values()].slice(0, 6);
     if (elegidas.length < 3) return pocasRecetas(zona, 3);
     const cartas = barajar(elegidas.flatMap(r => [
-      { par: r.id, texto: r.nombre, tipo: "plato", sec: r.seccion },
-      { par: r.id, texto: r.categoria, tipo: "categoria", sec: r.seccion }
+      { par: r.id, texto: r.nombre, tipo: "plato", r },
+      { par: r.id, texto: r.categoria, tipo: "categoria", r }
     ]));
     let abiertas = [], hechas = 0, movs = 0;
     puntos(0);
     zona.innerHTML = `<p class="ronda" data-movs aria-live="polite">0 movimientos</p>
       <div class="memory" style="--cols:${cartas.length > 8 ? 4 : 3}">
-        ${cartas.map((c, i) => `<button type="button" class="carta" data-i="${i}" aria-label="Carta ${i + 1}, boca abajo">
-          <span class="dorso">${icon("i-olla")}</span>
-          <span class="cara ${c.tipo} ${c.sec.toLowerCase()}"><small>${c.tipo === "plato" ? "Plato" : "Categoría"}</small>${esc(c.texto)}</span>
+        ${cartas.map((c, i) => `<button type="button" class="carta-m" data-i="${i}" aria-label="Carta ${i + 1}, boca abajo">
+          <span class="giro">
+            <span class="dorso">R</span>
+            ${c.tipo === "plato"
+              ? `<span class="cara plato" data-cara="${i}"><img alt=""><span>${esc(c.texto)}</span></span>`
+              : `<span class="cara categoria"><small>Categoría</small><span>${esc(c.texto)}</span></span>`}
+          </span>
         </button>`).join("")}
       </div>`;
+    // Imágenes de los platos (foto o bodegón 3D)
+    cartas.forEach((c, i) => {
+      if (c.tipo !== "plato") return;
+      imagenPlato(c.r, 360, 300).then(({ url, render }) => {
+        const cara = zona.querySelector(`[data-cara="${i}"]`); if (!cara) return;
+        if (render) cara.classList.add("render");
+        if (url) cara.querySelector("img").src = url; else cara.querySelector("img").remove();
+      });
+    });
     const $movs = zona.querySelector("[data-movs]");
-    const botones = [...zona.querySelectorAll(".carta")];
+    const botones = [...zona.querySelectorAll(".carta-m")];
     const etiquetar = (b, c) => b.setAttribute("aria-label", `${c.tipo === "plato" ? "Plato" : "Categoría"}: ${c.texto}`);
 
     zona.querySelector(".memory").addEventListener("click", e => {
-      const b = e.target.closest(".carta");
+      const b = e.target.closest(".carta-m");
       if (!b || espera || b.classList.contains("abierta")) return;
       const i = Number(b.dataset.i), c = cartas[i];
       b.classList.add("abierta"); etiquetar(b, c);
@@ -246,12 +275,12 @@ function memory(el, recetas) {
         hechas++; abiertas = [];
         const pts = Math.max(10, hechas * 20 - (movs - hechas) * 4);
         puntos(pts);
-        if (hechas === elegidas.length) setTimeout(() => finPartida(zona, "memory", pts, "Menos movimientos, más puntos.", empezar), 600);
+        if (hechas === elegidas.length) setTimeout(() => finPartida(zona, "memory", pts, "Menos movimientos, más puntos.", empezar), 700);
       } else {
         espera = setTimeout(() => {
           for (const k of [a, d]) { botones[k].classList.remove("abierta"); botones[k].setAttribute("aria-label", `Carta ${k + 1}, boca abajo`); }
           abiertas = []; espera = null;
-        }, 900);
+        }, 1000);
       }
     });
   }
@@ -259,67 +288,103 @@ function memory(el, recetas) {
   return () => { clearTimeout(espera); };
 }
 
-/* ---------- 4. La cesta de la compra ---------- */
+/* ---------- 4. La cesta de la compra (escena 3D) ---------- */
 function cesta(el, recetas) {
-  const { zona, puntos } = marco(el, "cesta", "juego-cesta");
-  let raf = 0, limpiar = () => {};
+  const { zona, puntos } = marco(el, "cesta");
+  let limpiar = () => {};
 
   function preparar() {
-    // Receta pedida y un alérgeno que ella no lleva pero otras sí.
-    const candidatas = barajar(recetas.filter(r => r.ingredientes.length >= 3));
-    for (const receta of candidatas) {
+    for (const receta of barajar(recetas.filter(r => r.ingredientes.length >= 3))) {
       const enReceta = new Set(receta.ingredientes.map(i => i.nombre));
-      const ajenos = recetas.filter(r => r.id !== receta.id).flatMap(r => r.ingredientes).filter(i => !enReceta.has(i.nombre));
-      const posibles = [...new Set(ajenos.flatMap(i => i.contiene))].filter(a => receta.tags.sin.has(a) || !receta.ingredientes.some(i => i.contiene.includes(a)));
-      if (ajenos.length >= 3 && posibles.length) {
-        const evitar = azar(posibles);
-        const unicos = [...new Map(ajenos.map(i => [i.nombre, i])).values()];
-        return { receta, evitar, ajenos: unicos };
-      }
+      const ajenos = [...new Map(recetas.filter(r => r.id !== receta.id).flatMap(r => r.ingredientes).filter(i => !enReceta.has(i.nombre)).map(i => [i.nombre, i])).values()];
+      const posibles = [...new Set(ajenos.flatMap(i => i.contiene))].filter(a => !receta.ingredientes.some(i => i.contiene.includes(a)));
+      if (ajenos.length >= 3 && posibles.length) return { receta, evitar: azar(posibles), ajenos };
     }
     return null;
   }
 
   function portada() {
+    limpiar();
     const p = preparar();
     if (!p) return pocasRecetas(zona, 3);
     zona.innerHTML = `<div class="fin">
       <p class="fin-pts">${esc(p.receta.nombre)}</p>
-      <p>Recoge sus ${p.receta.ingredientes.length} ingredientes. Los que llevan <b>${esc(NOMBRE_ALERGENO[p.evitar])}</b> salen en amarillo: si caen en la cesta, pierdes una vida.</p>
-      <p class="ayuda">Mueve la cesta con el dedo, el ratón o las flechas.</p>
+      <p>Recoge sus ${p.receta.ingredientes.length} ingredientes. Los que llevan ${esc(NOMBRE_ALERGENO[p.evitar])} caen con un aro dorado: si entran en la cesta, pierdes una vida.</p>
+      <p class="ayuda">Mueve la cesta con el dedo, el ratón o las flechas del teclado.</p>
       <button type="button" class="btn btn-primary" data-empezar>Empezar</button></div>`;
     zona.querySelector("[data-empezar]").addEventListener("click", () => jugar(p));
   }
 
-  function jugar({ receta, evitar, ajenos }) {
+  async function jugar({ receta, evitar, ajenos }) {
+    zona.innerHTML = `<div class="fin"><p>Preparando la cocina...</p></div>`;
+    const mod = await modelos();
+    if (!mod) { zona.innerHTML = `<div class="fin"><p>Este navegador no puede mostrar 3D. Prueba con otro o actualízalo.</p></div>`; return; }
+    const { THREE, crearModelo, escenaBase } = mod;
+
     zona.innerHTML = `
       <div class="cesta-juego">
-        <div class="cesta-lienzo"><canvas data-c aria-label="Zona de juego: cae comida y la cesta la recoge"></canvas></div>
+        <div class="cesta-lienzo"><canvas data-c aria-label="Zona de juego: caen ingredientes y la cesta los recoge"></canvas></div>
         <aside class="lista-compra">
           <h2>${esc(receta.nombre)}</h2>
           <p class="vidas" data-vidas aria-live="polite"></p>
-          <ul data-lista>${receta.ingredientes.map(i => `<li data-n="${esc(i.nombre)}">${icon("i-check")}${esc(i.nombre)}</li>`).join("")}</ul>
+          <ul data-lista>${receta.ingredientes.map(i => `<li data-n="${esc(i.nombre)}"><img alt=""><span>${esc(i.nombre)}</span></li>`).join("")}</ul>
           <p class="evita">${icon("i-aviso")}Evita: ${esc(NOMBRE_ALERGENO[evitar])}</p>
         </aside>
       </div>`;
-    const canvas = zona.querySelector("[data-c]"), ctx = canvas.getContext("2d");
-    const css = getComputedStyle(document.documentElement);
-    const C = k => css.getPropertyValue(k).trim();
-    const COL = { fondo: C("--color-paper-2"), tinta: C("--color-ink"), blanco: C("--color-white"), mango: C("--color-mango"), tomate: C("--color-tomate"), lima: C("--color-lima"), font: C("--font-body") };
-    let W = 0, H = 0, dpr = 1;
+    receta.ingredientes.forEach(i => imagenIngredientes([i.nombre], 80, 80, i.tipo).then(url => {
+      const img = zona.querySelector(`[data-n="${CSS.escape(i.nombre)}"] img`); if (img && url) img.src = url;
+    }));
+
+    const canvas = zona.querySelector("[data-c]");
+    let renderer;
+    try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); }
+    catch { zona.innerHTML = `<div class="fin"><p>Este navegador no puede mostrar 3D.</p></div>`; return; }
+    renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.95;
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    const scene = escenaBase(renderer);
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+    camera.position.set(0, 1.2, 16); camera.lookAt(0, 0, 0);
+
+    let W = 10, H = 10;
     const medir = () => {
-      const box = canvas.parentElement.getBoundingClientRect();
-      dpr = Math.min(2, window.devicePixelRatio || 1);
-      W = box.width; H = Math.min(520, Math.max(380, window.innerHeight * 0.6));
-      canvas.width = W * dpr; canvas.height = H * dpr; canvas.style.height = H + "px";
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const w = canvas.parentElement.clientWidth, h = Math.min(560, Math.max(400, window.innerHeight * 0.62));
+      renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+      H = 2 * Math.tan((camera.fov * Math.PI / 180) / 2) * 16; W = H * camera.aspect;
     };
     medir();
 
+    // Cesta de mimbre
+    const perfil = [[0.001, 0], [1.1, 0], [1.5, 0.2], [1.75, 0.9], [1.85, 1.05], [1.7, 1.05], [1.6, 0.9], [1.35, 0.25], [0.001, 0.15]].map(([x, y]) => new THREE.Vector2(x, y));
+    const geoCesta = new THREE.LatheGeometry(perfil, 64);
+    const pos = geoCesta.attributes.position, col = new Float32Array(pos.count * 3), v = new THREE.Vector3(), c = new THREE.Color();
+    for (let i = 0; i < pos.count; i++) { v.fromBufferAttribute(pos, i); const a = Math.atan2(v.z, v.x); const t = 0.5 + 0.5 * Math.sin(a * 36) * Math.sin(v.y * 22); c.setRGB(0.55 + t * 0.12, 0.38 + t * 0.08, 0.2 + t * 0.04).convertSRGBToLinear(); col.set([c.r, c.g, c.b], i * 3); }
+    geoCesta.setAttribute("color", new THREE.BufferAttribute(col, 3));
+    const cestaM = new THREE.Mesh(geoCesta, new THREE.MeshPhysicalMaterial({ vertexColors: true, roughness: 0.85, side: THREE.DoubleSide }));
+    const asa = new THREE.Mesh(new THREE.TorusGeometry(1.3, 0.08, 12, 48, Math.PI), new THREE.MeshPhysicalMaterial({ color: 0x7a5530, roughness: 0.8 }));
+    asa.position.y = 1.0;
+    const cestaG = new THREE.Group(); cestaG.add(cestaM, asa); cestaG.rotation.x = 0.35; cestaG.scale.setScalar(0.9);
+    scene.add(cestaG);
+
+    // Etiquetas con el nombre
+    const etiqueta = (texto, dorado) => {
+      const cv = document.createElement("canvas"), ctx = cv.getContext("2d");
+      const fs = 44; ctx.font = `600 ${fs}px Manrope, system-ui, sans-serif`;
+      const w = Math.ceil(ctx.measureText(texto).width) + 48; cv.width = w; cv.height = 76;
+      ctx.font = `600 ${fs}px Manrope, system-ui, sans-serif`;
+      ctx.fillStyle = dorado ? "rgba(226,194,122,0.95)" : "rgba(7,13,25,0.78)";
+      ctx.beginPath(); ctx.roundRect(0, 0, w, 76, 38); ctx.fill();
+      ctx.fillStyle = dorado ? "#0A1426" : "#F2F4F8"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(texto, w / 2, 40);
+      const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+      const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false }));
+      s.scale.set(w / 76 * 0.38, 0.38, 1); s.renderOrder = 2;
+      return s;
+    };
+    const prototipos = new Map();
+    const proto = ing => { if (!prototipos.has(ing.nombre)) prototipos.set(ing.nombre, crearModelo(ing.nombre, ing.tipo)); return prototipos.get(ing.nombre); };
+
     const faltan = new Set(receta.ingredientes.map(i => i.nombre));
     const items = [];
-    let x = W / 2, objetivoX = W / 2, vidas = 3, pts = 0, t0 = performance.now(), ultimo = t0, proximo = 0, flash = null;
-    const CW = Math.min(140, W * 0.32), CH = 34;
+    let x = 0, objetivoX = 0, vidas = 3, pts = 0, t0 = performance.now(), ultimo = t0, proximo = 0, raf = 0, flash = 0;
     const $vidas = zona.querySelector("[data-vidas]");
     const pintarVidas = () => { $vidas.textContent = `Vidas: ${vidas} de 3`; };
     pintarVidas(); puntos(0);
@@ -327,86 +392,79 @@ function cesta(el, recetas) {
     const teclas = new Set();
     const kd = e => { if (e.key === "ArrowLeft" || e.key === "ArrowRight") { teclas.add(e.key); e.preventDefault(); } };
     const ku = e => teclas.delete(e.key);
-    const mover = e => { const r = canvas.getBoundingClientRect(); objetivoX = e.clientX - r.left; };
+    const mover = e => { const r = canvas.getBoundingClientRect(); objetivoX = ((e.clientX - r.left) / r.width - 0.5) * W; };
     canvas.addEventListener("pointermove", mover);
     canvas.addEventListener("pointerdown", e => { mover(e); canvas.setPointerCapture?.(e.pointerId); });
     document.addEventListener("keydown", kd); document.addEventListener("keyup", ku);
     window.addEventListener("resize", medir);
-    canvas.style.touchAction = "none";
     limpiar = () => {
       cancelAnimationFrame(raf);
       document.removeEventListener("keydown", kd); document.removeEventListener("keyup", ku);
       window.removeEventListener("resize", medir);
+      scene.traverse(o => { o.geometry?.dispose?.(); if (o.material) { o.material.map?.dispose?.(); o.material.dispose?.(); } });
+      renderer.dispose();
+      limpiar = () => {};
     };
 
     const nuevoItem = () => {
       const pendientes = receta.ingredientes.filter(i => faltan.has(i.nombre));
       const roll = Math.random();
-      let ing, tipo;
-      if (pendientes.length && roll < 0.45) { ing = azar(pendientes); tipo = "bueno"; }
-      else {
-        const conAl = ajenos.filter(i => i.contiene.includes(evitar));
-        if (conAl.length && roll < 0.72) { ing = azar(conAl); tipo = "alergeno"; }
-        else { ing = azar(ajenos); tipo = ing.contiene.includes(evitar) ? "alergeno" : "otro"; }
+      let ing;
+      if (pendientes.length && roll < 0.45) ing = azar(pendientes);
+      else { const conAl = ajenos.filter(i => i.contiene.includes(evitar)); ing = conAl.length && roll < 0.72 ? azar(conAl) : azar(ajenos); }
+      const tipo = faltan.has(ing.nombre) && receta.ingredientes.some(i => i.nombre === ing.nombre) ? "bueno" : ing.contiene.includes(evitar) ? "alergeno" : "otro";
+      const g = new THREE.Group();
+      const m = proto(ing).clone(); m.scale.multiplyScalar(0.95); g.add(m);
+      if (tipo === "alergeno") {
+        const aro = new THREE.Mesh(new THREE.TorusGeometry(1.2, 0.05, 12, 48), new THREE.MeshPhysicalMaterial({ color: 0xe2c27a, metalness: 0.8, roughness: 0.25, emissive: 0x3a2a08 }));
+        aro.rotation.x = Math.PI / 2.4; g.add(aro);
       }
-      ctx.font = `700 15px ${COL.font}`;
-      const w = ctx.measureText(ing.nombre).width + 28;
+      const et = etiqueta(ing.nombre, tipo === "alergeno"); et.position.y = -1.25; g.add(et);
       const seg = (performance.now() - t0) / 1000;
-      items.push({ nombre: ing.nombre, tipo, w, x: w / 2 + Math.random() * Math.max(1, W - w), y: -20, v: 110 + Math.random() * 50 + seg * 2.2 });
+      g.position.set((Math.random() - 0.5) * (W - 2.4), H / 2 + 1.2, 0);
+      scene.add(g);
+      items.push({ g, m, tipo, nombre: ing.nombre, v: 2.6 + Math.random() * 1.0 + seg * 0.045, rx: (Math.random() - 0.5) * 2, ry: (Math.random() - 0.5) * 2.5 });
     };
-
-    const pill = (cx, cy, w, h, fill) => {
-      const r = h / 2;
-      ctx.beginPath();
-      ctx.moveTo(cx - w / 2 + r, cy - h / 2); ctx.lineTo(cx + w / 2 - r, cy - h / 2);
-      ctx.arc(cx + w / 2 - r, cy, r, -Math.PI / 2, Math.PI / 2); ctx.lineTo(cx - w / 2 + r, cy + h / 2);
-      ctx.arc(cx - w / 2 + r, cy, r, Math.PI / 2, -Math.PI / 2); ctx.closePath();
-      ctx.fillStyle = fill; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = COL.tinta; ctx.stroke();
-    };
+    const quitar = it => { scene.remove(it.g); it.g.traverse(o => { if (o.isSprite) { o.material.map.dispose(); o.material.dispose(); } }); };
 
     const terminar = gano => {
-      limpiar();
       const bonus = gano ? Math.max(0, 60 - Math.round((performance.now() - t0) / 1000)) * 2 : 0;
       pts += bonus; puntos(pts);
-      finPartida(zona, "cesta", pts, gano ? `Cesta completa. ${bonus} puntos extra por rapidez.` : "Se acabaron las vidas. Fíjate en los amarillos.", portada);
+      limpiar();
+      finPartida(zona, "cesta", pts, gano ? `Cesta completa. ${bonus} puntos extra por rapidez.` : "Se acabaron las vidas. Fíjate en los aros dorados.", portada);
     };
 
     const paso = ahora => {
       const dt = Math.min(0.05, (ahora - ultimo) / 1000); ultimo = ahora;
-      if (teclas.has("ArrowLeft")) objetivoX -= 420 * dt;
-      if (teclas.has("ArrowRight")) objetivoX += 420 * dt;
-      objetivoX = Math.max(CW / 2, Math.min(W - CW / 2, objetivoX));
-      x += (objetivoX - x) * Math.min(1, dt * 14);
+      if (teclas.has("ArrowLeft")) objetivoX -= W * 0.9 * dt;
+      if (teclas.has("ArrowRight")) objetivoX += W * 0.9 * dt;
+      const lim = W / 2 - 1.7;
+      objetivoX = Math.max(-lim, Math.min(lim, objetivoX));
+      x += (objetivoX - x) * Math.min(1, dt * 12);
+      const yC = -H / 2 + 1.1;
+      cestaG.position.set(x, yC, 0);
+      cestaG.rotation.z = (objetivoX - x) * -0.04;
+      if (ahora - flash < 220) cestaM.material.emissive.setHex(flash > 0 && cestaM.userData.ok ? 0x1d4a2c : 0x4a1d1d); else cestaM.material.emissive.setHex(0x000000);
 
-      if (ahora >= proximo) { nuevoItem(); proximo = ahora + Math.max(520, 1000 - (ahora - t0) / 60); }
-      const cy = H - CH / 2 - 10;
+      if (ahora >= proximo) { nuevoItem(); proximo = ahora + Math.max(560, 1100 - (ahora - t0) / 55); }
       for (let k = items.length - 1; k >= 0; k--) {
         const it = items[k];
-        it.y += it.v * dt;
-        const toca = it.y + 14 >= cy - CH / 2 && it.y - 14 <= cy + CH / 2 && Math.abs(it.x - x) < CW / 2 + it.w / 4;
-        if (toca) {
-          items.splice(k, 1);
+        it.g.position.y -= it.v * dt;
+        it.m.rotation.x += it.rx * dt; it.m.rotation.y += it.ry * dt;
+        const dy = it.g.position.y - (yC + 1.0), dx = Math.abs(it.g.position.x - x);
+        if (dy < 0.4 && dy > -0.6 && dx < 1.55) {
+          items.splice(k, 1); quitar(it);
           if (it.tipo === "bueno" && faltan.has(it.nombre)) {
-            faltan.delete(it.nombre); pts += 10;
+            faltan.delete(it.nombre); pts += 10; cestaM.userData.ok = true;
             zona.querySelector(`[data-lista] li[data-n="${CSS.escape(it.nombre)}"]`)?.classList.add("hecho");
-            flash = { c: COL.lima, t: ahora };
-          } else if (it.tipo === "alergeno") { vidas--; pintarVidas(); flash = { c: COL.tomate, t: ahora }; }
-          else { pts = Math.max(0, pts - 5); flash = { c: COL.tomate, t: ahora }; }
-          puntos(pts);
+          } else if (it.tipo === "alergeno") { vidas--; pintarVidas(); cestaM.userData.ok = false; }
+          else { pts = Math.max(0, pts - 5); cestaM.userData.ok = false; }
+          flash = ahora; puntos(pts);
           if (!faltan.size) return terminar(true);
           if (vidas <= 0) return terminar(false);
-        } else if (it.y > H + 30) items.splice(k, 1);
+        } else if (it.g.position.y < -H / 2 - 1.5) { items.splice(k, 1); quitar(it); }
       }
-
-      ctx.fillStyle = COL.fondo; ctx.fillRect(0, 0, W, H);
-      ctx.font = `700 15px ${COL.font}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      for (const it of items) {
-        pill(it.x, it.y, it.w, 30, it.tipo === "alergeno" ? COL.mango : COL.blanco);
-        ctx.fillStyle = COL.tinta; ctx.fillText(it.nombre, it.x, it.y + 1);
-      }
-      const brillo = flash && ahora - flash.t < 250;
-      pill(x, cy, CW, CH, brillo ? flash.c : COL.tomate);
-      ctx.fillStyle = COL.tinta; ctx.font = `700 15px ${COL.font}`; ctx.fillText("cesta", x, cy + 1);
+      renderer.render(scene, camera);
       raf = requestAnimationFrame(paso);
     };
     raf = requestAnimationFrame(paso);

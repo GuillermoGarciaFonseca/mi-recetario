@@ -1,5 +1,5 @@
 import { CATEGORIAS, ALERGENOS, DIETAS, NOMBRE_ALERGENO, calcularEtiquetas } from "./reglas.js";
-import { montarJuego, JUEGOS } from "./juegos.js";
+import { montarJuego, JUEGOS, imagenIngredientes } from "./juegos.js";
 
 /* ---------- Helpers ---------- */
 const $ = id => document.getElementById(id);
@@ -28,11 +28,24 @@ const avisoTrazas = r => r.tags.avisos.length
 function foto(r, cls = "") {
   const sec = r.seccion.toLowerCase();
   if (r.foto) return `<div class="photo ${sec} ${cls}"><img src="fotos/${esc(r.foto)}" alt="${esc(r.nombre)}" loading="lazy"></div>`;
-  const ingr = r.ingredientes.slice(0, 3).map(i => esc(i.nombre)).join("<br>");
-  return `<div class="photo ${sec} ${cls}">
-    <span class="slot-note">Foto pendiente</span>
-    <p class="ingr" aria-hidden="true">${ingr}</p>
-  </div>`;
+  return `<div class="photo render ${sec} ${cls}" data-bodegon="${esc(r.id)}"><span class="slot-note">Foto pendiente</span></div>`;
+}
+
+// Las recetas sin foto muestran sus ingredientes principales en 3D, renderizados poco a poco.
+let colaBodegones = [];
+function pintarBodegones() {
+  colaBodegones = [...document.querySelectorAll("[data-bodegon]:not([data-hecho])")];
+  const siguiente = () => {
+    const el = colaBodegones.shift();
+    if (!el) return;
+    const r = RECETAS.find(x => x.id === el.dataset.bodegon);
+    el.dataset.hecho = "1";
+    imagenIngredientes(r.ingredientes.slice(0, 3).map(i => i.nombre), 640, 480).then(url => {
+      if (url) el.insertAdjacentHTML("afterbegin", `<img src="${url}" alt="">`);
+      setTimeout(siguiente, 16);
+    });
+  };
+  siguiente();
 }
 
 /* ---------- Estado de filtros ---------- */
@@ -90,7 +103,7 @@ function fillSentenceCats() {
 function updateSentenceCount() {
   const n = RECETAS.filter(r => cumple(r, { ...sState, q: "", trazas: false })).length;
   $("s-count").textContent = n ? plural(n, "receta encaja", "recetas encajan") : "Ninguna encaja todavía";
-  $("s-go").textContent = n ? (n === 1 ? "Enséñamela" : "Enséñamelas") : "Ver la lista igualmente";
+  $("s-go").textContent = n ? (n === 1 ? "Ver la receta" : `Ver las ${n}`) : "Ver la lista";
 }
 
 /* ---------- Listado ---------- */
@@ -106,6 +119,7 @@ function fillListCats() {
 function renderList() {
   const list = RECETAS.filter(r => cumple(r));
   $("r-grid").innerHTML = list.map(card).join("");
+  pintarBodegones();
   $("r-empty").hidden = list.length > 0;
   $("r-grid").hidden = list.length === 0;
   $("r-count").textContent = plural(list.length, "receta", "recetas");
@@ -140,18 +154,37 @@ function renderList() {
 }
 
 function renderSections() {
-  const ej = RECETAS.some(r => r.ejemplo);
-  $("sections").innerHTML = ["Comidas", "Postres"].map(sec => {
-    const n = RECETAS.filter(r => r.seccion === sec).length;
-    return `<div class="section-tile ${sec.toLowerCase()}">
+  $("carta-total").textContent = plural(RECETAS.length, "receta", "recetas");
+  $("sections").innerHTML = ["Comidas", "Postres"].map(sec => `<div>
       <h3>${sec}</h3>
-      <p class="count">${plural(n, ej ? "receta de ejemplo" : "receta", ej ? "recetas de ejemplo" : "recetas")}</p>
-      <div class="cats">${CATEGORIAS[sec].map(c => {
+      <ul>${CATEGORIAS[sec].map(c => {
         const k = RECETAS.filter(r => r.categoria === c).length;
-        return `<button type="button" class="cat" data-sec="${sec}" data-cat="${c}">${c} <span class="n">${k}</span></button>`;
-      }).join("")}</div>
-    </div>`;
-  }).join("");
+        return `<li><button type="button" class="tactil" data-sec="${sec}" data-cat="${c}">${c}<span class="lineas" aria-hidden="true"></span><span class="n">${k}</span></button></li>`;
+      }).join("")}</ul>
+    </div>`).join("");
+}
+
+const PORTADA_JUEGOS = {
+  adivina: ["ajo", "tomate", "perejil"],
+  apto: ["harina de trigo", "huevo", "leche"],
+  memory: ["queso parmesano", "vino blanco", "limón"],
+  cesta: ["pimiento", "cebolla", "tomate"]
+};
+function renderJuegos() {
+  $("juegos-grid").innerHTML = Object.entries(JUEGOS).map(([id, j]) => `<li><a class="juego-card" href="#juego-${id}">
+      <div class="photo render" data-juego="${id}"></div>
+      <div class="txt"><b>${j.nombre}</b><span>${j.corto}</span></div>
+    </a></li>`).join("");
+  const ids = Object.keys(PORTADA_JUEGOS);
+  const uno = () => {
+    const id = ids.shift(); if (!id) return;
+    imagenIngredientes(PORTADA_JUEGOS[id], 520, 520).then(url => {
+      const el = document.querySelector(`[data-juego="${id}"]`);
+      if (url && el) el.innerHTML = `<img src="${url}" alt="">`;
+      setTimeout(uno, 16);
+    });
+  };
+  uno();
 }
 
 function aplicar(nuevo) {
@@ -179,7 +212,7 @@ function renderReceta(r) {
     RECETAS.filter(x => x.id !== r.id && x.seccion === r.seccion && x.categoria !== r.categoria)).slice(0, 3);
   $("vista-receta").innerHTML = `
   <article class="ficha wrap">
-    <a class="volver" href="#recetas">Volver a las recetas</a>
+    <a class="volver tactil" href="#recetas">Volver a las recetas</a>
     <div class="ficha-top">
       ${foto(r, "ficha-foto")}
       <div class="ficha-head">
@@ -201,9 +234,10 @@ function renderReceta(r) {
       <section aria-labelledby="h-ingr">
         <h2 id="h-ingr">Ingredientes</h2>
         <ul class="ingredientes">
-          ${r.ingredientes.map(i => `<li>
-            <span class="cant">${esc(i.cantidad)}</span>
+          ${r.ingredientes.map((i, k) => `<li>
+            <span class="ico" data-ico="${k}"></span>
             <span class="nom">${esc(i.nombre)}${alergenosDe(i).length ? `<span class="al">contiene ${esc(listaY(alergenosDe(i)))}</span>` : ""}${i.trazas.length ? `<span class="al">trazas de ${esc(listaY(i.trazas.map(a => NOMBRE_ALERGENO[a] || a)))}</span>` : ""}</span>
+            <span class="cant">${esc(i.cantidad)}</span>
           </li>`).join("")}
         </ul>
       </section>
@@ -215,7 +249,15 @@ function renderReceta(r) {
     </div>
     ${parecidas.length ? `<section class="parecidas" aria-labelledby="h-par"><h2 id="h-par">Más ${esc(r.seccion.toLowerCase())}</h2><ul class="grid">${parecidas.map(card).join("")}</ul></section>` : ""}
   </article>`;
-  document.title = `${r.nombre} | Mi Recetario`;
+  document.title = `${r.nombre} | Recetario`;
+  pintarBodegones();
+  const icos = [...document.querySelectorAll("#vista-receta [data-ico]")];
+  const uno = () => {
+    const el = icos.shift(); if (!el) return;
+    const ing = r.ingredientes[Number(el.dataset.ico)];
+    imagenIngredientes([ing.nombre], 112, 112, ing.tipo).then(url => { if (url) el.innerHTML = `<img src="${url}" alt="">`; setTimeout(uno, 0); });
+  };
+  uno();
 }
 
 /* ---------- Router ---------- */
@@ -225,7 +267,7 @@ function mostrar(vista) {
   $("vista-receta").hidden = vista !== "receta";
   $("vista-juego").hidden = vista !== "juego";
   if (vista !== "juego" && pararJuego) { pararJuego(); pararJuego = null; }
-  if (vista === "inicio") document.title = "Mi Recetario";
+  if (vista === "inicio") document.title = "Recetario | Sencillo. Casero. Bueno.";
 }
 
 function route() {
@@ -238,7 +280,7 @@ function route() {
     mostrar("juego");
     if (pararJuego) pararJuego();
     pararJuego = montarJuego(h.slice(6), $("vista-juego"), RECETAS);
-    document.title = `${JUEGOS[h.slice(6)].nombre} | Mi Recetario`;
+    document.title = `${JUEGOS[h.slice(6)].nombre} | Recetario`;
     window.scrollTo(0, 0);
     return;
   }
@@ -267,7 +309,7 @@ function enlazar() {
     irAlListado();
   });
   $("sections").addEventListener("click", e => {
-    const b = e.target.closest(".cat"); if (!b) return;
+    const b = e.target.closest("button[data-cat]"); if (!b) return;
     aplicar({ q: "", seccion: b.dataset.sec, categoria: b.dataset.cat, sin: new Set(), dieta: new Set() });
     irAlListado();
   });
@@ -328,6 +370,7 @@ async function iniciar() {
   $("f-alergeno").innerHTML = ALERGENOS.map(a => toggleHTML(a, "sin", "t-alergeno")).join("");
   $("f-dieta").innerHTML = DIETAS.map(d => toggleHTML(d, "dieta", d.cls)).join("");
   renderSections();
+  renderJuegos();
   fillListCats();
   renderList();
   if (matchMedia("(max-width: 60rem)").matches) $("filters-wrap").open = false;
