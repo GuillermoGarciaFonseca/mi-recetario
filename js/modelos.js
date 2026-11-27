@@ -345,6 +345,29 @@ const M = {
     return grupo(cuenco(null, 0.4), (() => { const m = monton(140, () => mesh(geo, mat(0xd9c49a, { roughness: 0.9 })), 0.8, 0.35, 9); m.position.y = 0.12; return m; })());
   },
   harina() { return cuenco(0xf7f4ee, 0.42); },
+  chorizo() {
+    const g = new THREE.Group();
+    const geo = new THREE.TorusGeometry(0.9, 0.24, 24, 64, Math.PI * 1.1);
+    deformar(geo, v => v.multiplyScalar(1 + ruido(v.x * 10, v.y * 10, v.z * 10) * 0.012));
+    pintar(geo, (v, c) => { const t = 0.5 + 0.5 * ruido(v.x * 14, v.y * 14, v.z * 14); c.setRGB(0.4 + t * 0.08, 0.09 + t * 0.03, 0.06); });
+    const tripa = mesh(geo, mat(0xffffff, { vertexColors: true, roughness: 0.4, clearcoat: 0.5 }));
+    tripa.rotation.x = Math.PI / 2;
+    g.add(tripa);
+    for (let i = 0; i < 3; i++) {
+      const r = mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.08, 32), [mat(0x5e1a10, { roughness: 0.45 }), mat(0x9c3a26, { roughness: 0.8 }), mat(0x9c3a26, { roughness: 0.8 })]);
+      r.position.set(-0.3 + i * 0.4, -0.2, 0.55 + (i % 2) * 0.15); r.rotation.set(0.05 * i, 0, 0.08);
+      g.add(r);
+    }
+    return g;
+  },
+  sidra() { return botella(0x2f5a2a, 0xd9b44a, { alto: 2.3, ancho: 0.4, tapon: 0xb39a52, nivel: 0.9 }); },
+  tomateFrito() {
+    const g = new THREE.Group();
+    g.add(mesh(lathe([[0.001, 0], [0.55, 0], [0.6, 0.08], [0.6, 1.1], [0.45, 1.25], [0.001, 1.25]]), vidrio(0xffffff)));
+    g.add(mesh(lathe([[0.001, 0.04], [0.56, 0.04], [0.56, 1.05], [0.001, 1.05]]), mat(0x6e1208, { roughness: 0.3 })));
+    const t = mesh(new THREE.CylinderGeometry(0.47, 0.47, 0.16, 32), mat(0xc9c9c9, { metalness: 0.8, roughness: 0.3 })); t.position.y = 1.3; g.add(t);
+    return g;
+  },
   generico(tipo) {
     const c = { lacteo: 0xf5f5f2, huevo: 0xe8cba4, miel: 0xd8901a, pescado: 0x8a96a3, marisco: 0xe07a50, carne: 0xc0624d }[tipo] ?? 0x9aa77a;
     return cuenco(c, 0.42);
@@ -359,7 +382,7 @@ const REGLAS = [
   ["aceite", M.aceite], ["vino", M.vino], ["soja", M.soja], ["barbacoa", M.barbacoa], ["miel", M.miel], ["vinagre", M.vino],
   ["chocolate", M.chocolate], ["canela", M.canela], ["azucar", M.azucar], ["harina", M.harina], ["levadura", M.harina],
   ["pimenton", () => M.polvo(0xa8321c)], ["pimienta", () => M.polvo(0x2a2420)], ["sal", () => M.polvo(0xfafafa)], ["ajo en polvo", () => M.polvo(0xe9dcc0)],
-  ["tomate", M.tomate], ["huevo", M.huevo], ["limon", M.limon], ["lima", M.lima], ["mango", M.mango], ["patata", M.patata],
+  ["tomate frito", M.tomateFrito], ["salsa de tomate", M.tomateFrito], ["tomate", M.tomate], ["chorizo", M.chorizo], ["sidra", M.sidra], ["huevo", M.huevo], ["limon", M.limon], ["lima", M.lima], ["mango", M.mango], ["patata", M.patata],
   ["cebolla", M.cebolla], ["ajo", M.ajo], ["zanahoria", M.zanahoria], ["pimiento", M.pimiento], ["calabaza", M.calabaza],
   ["seta", M.seta], ["champi", M.seta], ["perejil", M.perejil], ["puerro", M.puerro], ["jengibre", M.jengibre],
   ["almendra", M.almendra], ["nuez", M.almendra], ["lenteja", M.legumbre], ["garbanzo", M.legumbre], ["arroz", M.arroz], ["avena", M.avena],
@@ -445,7 +468,7 @@ export function renderizar(nombres, { ancho = 320, alto = 320, tipo } = {}) {
   r.render(scene, camera);
   const url = r.domElement.toDataURL("image/png");
   scene.remove(g);
-  g.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+  g.traverse(o => { if (o.geometry) o.geometry.dispose(); [].concat(o.material || []).forEach(m => m.dispose()); });
   cache.set(clave, url);
   return url;
 }

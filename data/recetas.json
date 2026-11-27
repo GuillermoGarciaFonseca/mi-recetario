@@ -178,6 +178,73 @@
   "notas": "El caldo de las cabezas es lo que le da el sabor: no te saltes el colado."
  },
  {
+  "id": "pasta-chorizo-sidra",
+  "nombre": "Pasta con chorizo a la sidra",
+  "seccion": "Comidas",
+  "categoria": "Arroces y pastas",
+  "raciones": 2,
+  "tiempo_preparacion_min": 10,
+  "tiempo_coccion_min": 30,
+  "dificultad": "Fácil",
+  "fecha_hecha": null,
+  "foto": "pasta-chorizo-sidra.webp",
+  "ingredientes": [
+   {
+    "cantidad": "250 g",
+    "nombre": "pasta",
+    "tipo": "vegetal",
+    "contiene": [
+     "gluten"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "200 g",
+    "nombre": "chorizo",
+    "tipo": "carne",
+    "contiene": [],
+    "trazas": [
+     "gluten",
+     "soja"
+    ]
+   },
+   {
+    "cantidad": "1 botellín de un quinto (200 ml)",
+    "nombre": "sidra",
+    "tipo": "vegetal",
+    "contiene": [
+     "sulfitos"
+    ],
+    "trazas": []
+   },
+   {
+    "cantidad": "300 ml",
+    "nombre": "tomate frito",
+    "tipo": "vegetal",
+    "contiene": [],
+    "trazas": []
+   },
+   {
+    "cantidad": "200 g",
+    "nombre": "queso viejo de oveja",
+    "tipo": "lacteo",
+    "contiene": [
+     "lactosa"
+    ],
+    "trazas": []
+   }
+  ],
+  "pasos": [
+   "Cocer la pasta el tiempo que indique el fabricante y escurrirla.",
+   "Picar muy fino la mitad del chorizo (100 g) y cortar la otra mitad en rodajas.",
+   "En una sartén, echar la sidra y el chorizo. Dejar hervir unos 15 minutos a fuego fuerte (potencia 9), hasta que se vaya el alcohol.",
+   "Bajar el fuego a potencia 3 y añadir el tomate frito y el queso rallado.",
+   "Juntarlo con la pasta y remover todo el rato.",
+   "Apagar el fuego y dejar reposar unos 20 minutos."
+  ],
+  "notas": "Para 4 personas: 500 g de pasta y 600 ml de tomate frito. El queso, el que más te guste, mientras sea viejo de oveja."
+ },
+ {
   "id": "merluza-salsa-verde",
   "ejemplo": true,
   "nombre": "Merluza en salsa verde",

@@ -401,7 +401,7 @@ function cesta(el, recetas) {
       cancelAnimationFrame(raf);
       document.removeEventListener("keydown", kd); document.removeEventListener("keyup", ku);
       window.removeEventListener("resize", medir);
-      scene.traverse(o => { o.geometry?.dispose?.(); if (o.material) { o.material.map?.dispose?.(); o.material.dispose?.(); } });
+      scene.traverse(o => { o.geometry?.dispose?.(); [].concat(o.material || []).forEach(m => { m.map?.dispose?.(); m.dispose?.(); }); });
       renderer.dispose();
       limpiar = () => {};
     };
